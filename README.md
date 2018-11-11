@@ -15,10 +15,10 @@ Resolução de Sistemas por Gauss-Seidel, Apenas um sistema converge para o valo
 <br>                        -> NECESSÁRIO <b>INSERIR PIVOTEAMENTO</b> DAS MATRIZES PARA VERIFICAR CONVERGÊNCIA
 <h2>QUESTÃO 2.3 - SOR </h2> 
 <br>Resolução de sistemas lineares A e B por SOR, usando 10^(-7) como tolerancia, e X⁰ = (1,1,1) 
-<br>                        -> Para SOR(0.5) n = 98 iterações;
-<br>                        -> Para SOR(1.2) n = 29 iterações;
-<br>                        -> Para SOR(1.7) n > 300 iterações; diverge
-<br>                        -> Para SOR(2.5) n > 300 iterações; diverge
+<br>                        -> Para SOR(0.5) n = 98 (matriz B) iterações e n = 44 (matriz A);
+<br>                        -> Para SOR(1.2) n = 29 (matriz B) iterações; diverge para A;
+<br>                        -> Para SOR(1.7) n > 300(matriz B) iterações; diverge para A; diverge para B
+<br>                        -> Para SOR(2.5) n > 300(matriz B) iterações; diverge para A; diverge para B
 <br>----------------------------------------------------------------------------------------------------
 <br>                        -> Para SOR(1.3) n = 37 iterações; (inicio de divergência?)
 <br>
