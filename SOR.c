@@ -4,18 +4,14 @@
 
 /*
     @shogunhirei
-    EQE749 Métodos Numéricos
-    Método de Gauss-Seidel de Resolução de Sistemas lineares
+    EQE749 - Métodos Numéricos 
+    Implementação do método SOR - Sucessive Over Relaxation
 
-    Processo:
-    --> Similar ao Jacobi...
-    --> Mudança nas etapas de do próximo Xi da iteração
-    --> Residuo também é alterado
-    --> As mudanças nas variaveis são feitas assim que determinadas
-        as aproximações
-    dom 11 nov 2018 12:39:22 -02
+    Processo: 
+    --> Exatamente igual ao método de Gauss-Seidel,
+    --> Difere apenas em uma constante de multiplicação do resíduo
+    dom 11 nov 2018 17:48:06 -02
 */
-
 
 double* input_listing(int ar_len, double input[ar_len]){
 
@@ -27,11 +23,13 @@ double* input_listing(int ar_len, double input[ar_len]){
 
 }
 
+
 int main(int argc, char** argv)
 {
     int n_lin, i, j; 
     double conv_cri;
     int limite = 300; //Definindo limite de operações de repetição
+    double SOR; 
 
     printf("Insira a ordem do sistema: ");
     scanf("%d",&n_lin);
@@ -52,6 +50,9 @@ int main(int argc, char** argv)
 
     printf("Insira o critério de convergência: ");
     scanf("%lf",&conv_cri);
+
+    printf("Insira a constante de Relaxação (SOR): ");
+    scanf("%lf",&SOR);
 
     double soma;
     double soma_res = 5;
@@ -108,11 +109,12 @@ int main(int argc, char** argv)
 
             residuo[i] = vet_b[i] - soma_antes - soma_depois;
             soma_res += fabs(residuo[i]/matriz[i][i]);
-            printf("Gues_ant%d = %f; Soma_antes%d = %f; Soma_depois%d = %f; Residuo%d  = %f\n", i, gues[i], i, soma_antes, i, soma_depois, i, residuo[i]);
-            gues[i] = gues[i] + residuo[i]/matriz[i][i];
+            /*printf("Gues_ant%d = %f; Soma_antes%d = %f; Soma_depois%d = %f; Residuo%d  = %f\n", i, gues[i], i, soma_antes, i, soma_depois, i, residuo[i]);*/
+            gues[i] = gues[i] + SOR * residuo[i]/matriz[i][i];
             printf("Soma_res: %f; g_%d: %f\n",soma_res, i, gues[i]);
 
         }
+        n++;
         if(n > limite)
         {
             printf("Limite de operações atingido\n");
@@ -122,4 +124,6 @@ int main(int argc, char** argv)
     for (i = 0; i < n_lin; ++i) {
         printf("X_%d: %f\n", i, gues[i]);
     }
+    printf("Quantidade de Iterações: %d\n",n);
+     
 }
