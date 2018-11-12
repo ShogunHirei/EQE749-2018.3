@@ -61,7 +61,7 @@ int main(int argc, char** argv)
     
     for(i = 0; i < n_lin; ++i){
         for (j = 0; j < n_lin; ++j) {
-            printf("a%d%d: %f", i, j, matriz[i][j]);
+            printf("a%d%d: %f\n", i, j, matriz[i][j]);
         }
         printf(" b%d: %f Guess_%d: %f\n", i, vet_b[i], i, gues[i]);
     }
