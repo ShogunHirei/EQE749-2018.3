@@ -8,11 +8,12 @@ RESOLUÇÃO DE SISTEMAS LINEARES A E B, corretos, considerar inserção de pivot
 
 <h2>QUESTÃO 2.2 </h2>
 <br>
-Resolução de Sistemas por Gauss-Seidel, Apenas um sistema converge para o valores iniciais de 1,1,1
+<br>Resolução de Sistemas por Gauss-Seidel, Apenas um sistema converge para o valores iniciais de 1,1,1
 <br>
 <br>                        -> Verificar critério de convergência -> Verificado, mas não realizado
 <br>                        -> Critério de convergência: Sistema precisa ter diagonal dominante para que método convirja
 <br>                        -> NECESSÁRIO <b>INSERIR PIVOTEAMENTO</b> DAS MATRIZES PARA VERIFICAR CONVERGÊNCIA
+<br>                        -> Funcionou para Sistema C;
 <h2>QUESTÃO 2.3 - SOR </h2> 
 <br>Resolução de sistemas lineares A e B por SOR, usando 10^(-7) como tolerancia, e X⁰ = (1,1,1) 
 <br>                        -> Para SOR(0.5) n = 98 (matriz B) iterações e n = 44 (matriz A);
@@ -22,5 +23,7 @@ Resolução de Sistemas por Gauss-Seidel, Apenas um sistema converge para o valo
 <br>----------------------------------------------------------------------------------------------------
 <br>                        -> Para SOR(1.3) n = 37 iterações; (inicio de divergência?)
 <br>
+<h2>QUESTÃO 2.4 THOMAS</h2>
+<br>Resolução de Sistemas Lineares Tridiagonais pelo algoritmo de Thomas, funcionando para sistema C
 
 OUTRAS QUESTÕES POR FAZER ^^;

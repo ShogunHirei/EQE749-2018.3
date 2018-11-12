@@ -19,7 +19,7 @@ double* input_listing(int ar_len, double input[ar_len]){
 
 }
 
-double* print_matriz(int n_lin, double matriz[n_lin][n_lin], double vet_b[n_lin]){
+void print_matriz(int n_lin, double matriz[n_lin][n_lin], double vet_b[n_lin]){
         printf("++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
         for (int y = 0; y < n_lin; ++y) {
             for (int g = 0; g < n_lin ; ++g) {
