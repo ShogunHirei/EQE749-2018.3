@@ -27,10 +27,10 @@ void print_matriz(int n_lin, double matriz[n_lin][n_lin], double vet_b[n_lin]){
 
 int main(int argc, char** argv)
 {
-   /*double mat[3][3] = {  {1, -2, 1},{2, 1, 2}, {-1, 1, 3} };*/
-   double mat[3][3] = { {2, 3, 5}, {3, 1,-2}, {1, 3, 4} }; // LETRA B
-   /*double vet_b[3] = { -1, 3, 8};*/
-   double vet_b[3] = {0, -2, -3};// LETRA B
+   double mat[3][3] = {  {1, -2, 1},{2, 1, 2}, {-1, 1, 3} };
+   //double mat[3][3] = { {2, 3, 5}, {3, 1,-2}, {1, 3, 4} }; // LETRA B
+   double vet_b[3] = { -1, 3, 8};
+   //double vet_b[3] = {0, -2, -3};// LETRA B
    int i, j, k;
    int n_lin = 3;
    double L[n_lin][n_lin];

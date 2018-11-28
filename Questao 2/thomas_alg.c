@@ -76,6 +76,7 @@ int main(int argc, char** argv)
         matriz_linha[i][2] = matriz[i][i+1];
     }
 
+    // Mostrando a matriz para conferir coeficientes 
 
     for (i = 0; i < n_lin; ++i)
     {
@@ -87,11 +88,13 @@ int main(int argc, char** argv)
     }
 
     for (i = 1; i < n_lin; ++i) {
+        // Operação de Eliminação, Li - M * Lj
         m = (matriz_linha[i][0]/matriz_linha[i-1][1]);
-        matriz_linha[i][1] = matriz_linha[i][1] - m*matriz_linha[i-1][2];
-        vet_b[i] = vet_b[i] - m*vet_b[i-1];
+        matriz_linha[i][1] = matriz_linha[i][1] - m * matriz_linha[i-1][2];
+        vet_b[i] = vet_b[i] - m  * vet_b[i-1];
     }
-
+    /*Inicio de processo de retorno */
+    // Especificando o último valor do conjunto de soluções 
     sols[n_lin - 1] = vet_b[n_lin - 1]/matriz_linha[n_lin-1][1];
 
     for (i = n_lin - 2; i >= 0; i-- )
@@ -99,6 +102,7 @@ int main(int argc, char** argv)
         sols[i] = (vet_b[i] - matriz_linha[i][2]*sols[i+1])/matriz_linha[i][1];
     }
 
+    // Mostrando matriz final e soluções
     printf("Matriz_linha alterada \n");
 
     for (i = 0; i < n_lin; ++i)
@@ -109,6 +113,7 @@ int main(int argc, char** argv)
         }
         printf("b%d: %f\n", i, vet_b[i]);
     }
+    // Mostrando resultados do conjunto solução 
     for (i = 0; i < n_lin; ++i) 
     {
         printf("X_%d: %f\n", i, sols[i]);
