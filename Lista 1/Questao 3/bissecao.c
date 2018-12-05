@@ -19,7 +19,7 @@
 
 void function(int def, double A, double B, double interval[2])
 {
-    if(def != 0)
+    if(def != 1)
     {
         interval[0] = exp(A) -  sin(M_PI*A/3);
         interval[1] = exp(B) -  sin(M_PI*B/3);
@@ -31,31 +31,16 @@ void function(int def, double A, double B, double interval[2])
     }
 }
 
-
-int main(int argc, char** argv)
+void bissecao(double A, double B, int def, double conv_crit)
 {
-    double A, B;
-    double c;
-    int def;
-    double conv_crit;
-    int n = 0; // Contador de loop...
+    int n = 0; 
     double interval[2];
-
-
-    printf("Insira o intervalo A,B: ");
-    scanf("%lf, %lf",&A, &B);
-
-    printf("Insira a função (1 ou 0): ");
-    scanf("%d",&def);
-
-    printf("Insira o critério de convergência: ");
-    scanf("%lf",&conv_crit);
-
+    double c; 
+    
     c = (A + B)/2.0 ;
 
     do {
         function(def, A, c, interval);
-        
 
         if(interval[0]*interval[1] < 0)
         {
@@ -69,14 +54,38 @@ int main(int argc, char** argv)
         }
         if(n > 300)
         {
-            printf("Zero da função!\n Número de it = %d",n);
+            printf("Não convergiu para esse intervalo!\n Número de it = %d",n);
             break;
         }
         n++;
     }while (fabs(interval[0]) > conv_crit );
 
         printf("Convergiu!\n Numéro de it: %d\n Raiz: %f\n f(Raiz): %f\n (A - B): %f\n Conv_crit: %f\n", n, c, interval[0],fabs(A - B),conv_crit);
+}
 
-        return(EXIT_SUCCESS);
+
+int main(int argc, char** argv)
+{
+    double A, B;  //Intervalo de busca da raiz
+    double c; //Ponto médio do intervalo
+    int def;
+    double conv_crit = 0.000001; //Critério de Convergência 
+    int n = 0; // Contador de loop...
+
+    // Letra A 
+    A = -3.5;
+    B = 2.5;
+    def = 0;
+
+    bissecao( A,  B,  def,  conv_crit);
+
+    // Letra B
+    A = 0.0;
+    B = 1.0;
+    def = 1;
+
+    bissecao( A,  B,  def,  conv_crit);
+    
+    return(EXIT_SUCCESS);
 
 }

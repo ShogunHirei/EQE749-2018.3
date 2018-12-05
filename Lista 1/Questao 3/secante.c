@@ -15,7 +15,7 @@
 
 void function(int def, double X0, double Xi, double interval[2]) 
 {
-    if(def != 0)
+    if(def != 1)
     {
         interval[0] = exp(X0) -  sin(M_PI*X0/3);
         interval[1] = exp(Xi) -  sin(M_PI*Xi/3);
@@ -27,23 +27,13 @@ void function(int def, double X0, double Xi, double interval[2])
     }
 }
 
-
-int main(int argc, char** argv)
+void secant(double Xi, double X0, int def)
 {
-    int def, n = 0;
-    double Xi, X0, k;
-    double results[2];
-    double conv_crit;
+    double conv_crit = 0.0000001;
     double g;
-
-    printf("insira o valor inicial (X0, Xi): ");
-    scanf("%lf, %lf",&X0, &Xi);
-
-    printf("insira a função (1 ou 0): ");
-    scanf("%d",&def);
-
-    printf("insira o critério de convergência: ");
-    scanf("%lf",&conv_crit);
+    double k;
+    double results[2];
+    int n = 0;
 
     do
     {
@@ -61,6 +51,26 @@ int main(int argc, char** argv)
         n++;
     }while(fabs(Xi - X0) > conv_crit);
     printf("\n Convergiu!\n It: %d; Raiz: %f\n f(Raiz): %f\n", n, Xi, results[1]);
+}
+
+int main(int argc, char** argv)
+{
+    int def, n = 0;
+    double Xi, X0;
+
+    // Letra F
+    X0 = -3.0;
+    Xi = -2.5;
+    def = 0;
+
+    secant(X0, Xi, def);
+
+    // Letra G
+    X0 = 0.0;
+    Xi = 1.0;
+    def = 1;
+    
+    secant(X0, Xi, def);
 
     return(EXIT_SUCCESS);
 }

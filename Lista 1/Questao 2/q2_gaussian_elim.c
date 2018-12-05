@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <math.h>
 /*
     @shogunhirei
     EQE749 - Métodos Numéricos 
@@ -9,26 +9,20 @@
     qui 08 nov 2018 13:19:57 -02
 */
 
-double* input_listing(int ar_len, double input[ar_len]){
-
-    for(int i = 0; i < ar_len; i++)
-    {
-        scanf("%lf,",&input[i]);
-    }
-    return input;
-
-}
+void pivotamento(int n_lines, int indice_linha, double matriz[n_lines][n_lines], double vetor[n_lines]);
 
 void print_matriz(int n_lin, double matriz[n_lin][n_lin], double vet_b[n_lin]){
         printf("++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
         for (int y = 0; y < n_lin; ++y) {
             for (int g = 0; g < n_lin ; ++g) {
-                printf(" a%d%d: %f,", y, g, matriz[y][g]);
+                printf(" A%d%d: %f,", y, g, matriz[y][g]);
             }
-            printf(" b%d: %f \n", y, vet_b[y]);
+            printf(" B%d: %f \n", y, vet_b[y]);
         }
         printf("++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
 }
+
+#define n_lin 3
 
 int main(int argc, char** argv)
 {
@@ -60,38 +54,25 @@ int main(int argc, char** argv)
         -> Vetor de Resposta (implicito)
         qui 08 nov 2018 13:26:52 -02
     */
-    int n_lin;
-    int m_col;
+    int m_col = n_lin;
     int i,j,k,m;
 
-    printf("Insira a ordem da matriz: \n");
-    scanf("%d",&n_lin);
-    m_col = n_lin ;
+    // Matriz A
+    double matriz[n_lin][n_lin] = {{1, -2, 1}, {2, 1, 2}, {-1, 1, 3}}; 
+    double vet_b[n_lin] = {-1, 3, 8};
+    // Matriz B
+    //double matriz[n_lin][n_lin] = {{2, 3, 5}, {3, 1, -2}, {1, 3, 4}}; 
+    //double vet_b[n_lin] = {0, -2, -3};
 
-    double matriz[n_lin][m_col];
-    double vet_b[n_lin];
-
-
-    for (i = 0; i < n_lin; ++i) 
-    {
-        printf("Vamos inserir os dados da linha %d ",i);
-        input_listing(m_col, matriz[i]);
-        
-        printf("Insira agora b_%d: ",i+1);
-        scanf("%lf",&vet_b[i]);
-    }
-        //TODO: Inserir seção de pivotamento
-        //@shogunhirei 
-        //qui 08 nov 2018 16:33:21 -02
-    for (i = 0; i < n_lin; i++)
-    {
-        for (j = 0; j < m_col; j++)
-            printf("a%d%d: %f,  ", i, j, matriz[i][j]);
-            printf("\n");
-    }
+    print_matriz(n_lin, matriz, vet_b);
 
     for (j = 0; j < m_col; j++) {
+
+        pivotamento(n_lin, i, matriz, vet_b);
+
         for (i = j+1; i < n_lin; i++) {
+
+
             double b = matriz[j][j];
             double c = matriz[i][j];
             double mul = b/c;
@@ -141,3 +122,51 @@ int main(int argc, char** argv)
 
     return(EXIT_SUCCESS);
 }
+
+
+void pivotamento(int n_lines, int indice_linha, double matriz[n_lines][n_lines], double vetor[n_lines])
+{ /*
+         @shogunhirei
+         Função para pivotamento de de matriz 
+
+         O pivoteamento consiste na técnica de mudança de linhas e colunas 
+         para manter o elemento de maior modulo como elemento inicial da linha
+         ou de forma que ele seja conveniente à operação sendo realizada.
+
+         Processo (Pivoteamento de linhas):
+         --> Para a linha indicada:
+            --> Verificar se existem outros elementos com maior módulo na mesma coluna:
+            -->     Caso sim, mudar linha atual com linha da coluna indicada, incluindo termo fonte
+            --> Verificar se existem valores maiores na linha:
+            -->     Caso sim, trocar as colunas de lugar, e mudar o vet solução;
+
+         *Vou me abster do pivoteamento de colunas por enquanto
+         ter 04 dez 2018 22:52:59 -02
+     */
+    // Pivoteamento de Linhas
+    // Matriz -> Matriz que será pivoteada
+    // Vetor -> pode ser termo-fonte ou vetor solução, depende do pivot 
+    int i, j, k; // Contadores genéricos
+    double troca1; // Para substituição de valores entre linhas 
+
+    i = indice_linha;
+    for (j = indice_linha + 1; j < n_lines; j++)
+    {
+
+        if(fabs(matriz[i][i]) < fabs(matriz[j][i]))
+        {
+            // Etapa de troca de elementos das matriz e vetor
+            for (k = indice_linha; k < n_lines; k++)
+            {
+                troca1 = matriz[i][k];
+                matriz[i][k] = matriz[j][k];
+                matriz[j][k] = troca1;
+            }
+            troca1 = vetor[indice_linha];
+            vetor[indice_linha] = vetor[j];
+            vetor[j] = troca1;
+        }
+    }
+    
+}
+

@@ -59,6 +59,22 @@ void thomas_alg(int n_lin, double matriz_linha[n_lin][n_lin], double vet_b[n_lin
     -> Determinar a e b através dos dados da relação anterior
     -> Calcular x_i e y_i da equação atual
     -> Repetir o processo
+
+    Para propor outra alternativa com maior chance de convergir:
+    Processo: 
+        --> Calcular x e y para um valor inicial de a0 e b0;
+
+     |----------->Etapa 1 <--------------------------------------------------------------------  
+     |  --> Para cada prato utilzar os valores de x e y para determinar a e b daquele prato   |
+     |      --> Realizar etapa anterior, para todos pratos                                    |
+     |-----------------------------------------------------------------------------------------
+
+     |----------->Etapa 2 <--------------------------------------------------------------------  
+     |  --> Calcular x e y para todos os pratos, com os valores atuais de a e b               |
+     |      --> Comparar valores anteriores de x e y para verificar convergência              |
+     |          --> Caso não, usar valores atuais de x e y e voltar pra Etapa 1               |
+     |-----------------------------------------------------------------------------------------
+
     qua 28 nov 2018 17:10:23 -02
 */
 double a_fun(double x,double y){

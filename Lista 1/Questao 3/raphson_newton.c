@@ -19,7 +19,7 @@
 
 void function(int def, double X0, double interval[2]) 
 {
-    if(def != 0)
+    if(def != 1)
     {
         interval[0] = exp(X0) -  sin(M_PI*X0/3);
         interval[1] = exp(X0) - (M_PI/3)*cos(M_PI*X0/3);
@@ -31,22 +31,11 @@ void function(int def, double X0, double interval[2])
     }
 }
 
-int main(int argc, char** argv)
+void newton(double X0, int def)
 {
-    int def, n = 0;
-    double X0;
-    double conv_crit;
+    int n = 0;
+    double conv_crit = 0.00001;
     double results[2];
-
-    printf("insira o valor inicial (x0): ");
-    scanf("%lf", &X0);
-
-    printf("insira a função (1 ou 0): ");
-    scanf("%d",&def);
-
-    printf("insira o critério de convergência: ");
-    scanf("%lf",&conv_crit);
-
 
     do
     {
@@ -64,6 +53,26 @@ int main(int argc, char** argv)
     while (fabs(results[0]) > conv_crit);
     printf("Convergiu!\n Iterações: %d \n Raiz: %f\n f(Raiz): %f\n", n, X0, results[0]);
 
+
+}
+
+int main(int argc, char** argv)
+{
+    int def;
+    double X0;
+
+    // Letra d
+    X0 = -3.0;
+    def = 0; // Função A 
+
+    newton(X0, def);
+
+    // Letra e
+    X0 = 1.0;
+    def = 1; // Função B
+    
+    newton(X0, def);
+    
     return(EXIT_SUCCESS);
 }
 

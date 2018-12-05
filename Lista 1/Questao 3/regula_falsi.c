@@ -33,31 +33,20 @@ void function(int def, double A, double B, double interval[2])
     }
 }
 
-int main(int argc, char** argv)
+void regula_falsi(double A, double B, int def)
 {
-     
-    double A, B;
-    double c;
+    double conv_crit = 0.000001;
     double results[2];
-    double g;
-    double conv_crit;
-    double k; // Para transferir valores entre variaveis
-    int def;
-    int n = 0; // Segurança contra Loop Infinito
+    double k;
+    double g; 
+    double c;
+    int n = 0; //COntrole de loop
 
-    printf("Insira o intervalo A,B: ");
-    scanf("%lf, %lf",&A, &B);
-
-    printf("A: %f, B: %f \n", A, B);
-    printf("Insira a função (1 ou 0): ");
-    scanf("%d",&def);
-
-    printf("Insira o critério de convergência: ");
-    scanf("%lf",&conv_crit);
-
-    function(def, A, B, results);
+    function(def, A, B, results); 
+    //Cálculo de F(a) e F(b) para determinar qual a direção de aumento da função
     printf("F(a): %f ; F(b): %f\n",results[0], results[1]);
-    if(results[0] > results[1])
+
+    if(results[0] > results[1]) // Mudando valores de intervalo para evitar problemas com sinais
     {
         printf("Passou por aqui! \n");
         k = A;
@@ -66,12 +55,10 @@ int main(int argc, char** argv)
     }
     printf("A: %f, B: %f\nf(A): %f f(B): %f\n", A, B, results[0], results[1]);
 
-
     while ( fabs(results[0]) >= conv_crit)
     {
-
-        function(def, A, B, results);
-        g = (results[1] - results[0])/(B - A);
+        function(def, A, B, results); // Cálculo de F(a) e F(b)
+        g = (results[1] - results[0])/(B - A); //Determinação do ponto que passa a nova reta  
         c = B - results[1]/g;
         A = c;
         if( n > 300)
@@ -84,6 +71,29 @@ int main(int argc, char** argv)
     }
 
     printf("\n Numéro de it: %d\n Raiz: %f\n f(Raiz): %f\n (A - B): %f\n Conv_crit: %f\n", n, c, results[0],fabs(A - B),conv_crit);
+
+}
+
+int main(int argc, char** argv)
+{
+     
+    double A, B;
+    int def;
+
+    // Letra A 
+    A = -3.5;
+    B = 2.5;
+    def = 1;
+
+    regula_falsi( A,  B,  def);
+
+    // Letra B
+    A = 0.0;
+    B = 1.0;
+    def = 0;
+
+    regula_falsi( A,  B,  def);
+    
 
     return(EXIT_SUCCESS);
 

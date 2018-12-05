@@ -17,48 +17,18 @@
     dom 11 nov 2018 20:57:32 -02
 */
 
-double* input_listing(int ar_len, double input[ar_len]){
+#define n_lin 4
 
-    for(int i = 0; i < ar_len; i++)
-    {
-        scanf("%lf,",&input[i]);
-    }
-    return input;
-
-}
-void print_matriz(int n_lin, double matriz[n_lin][n_lin], double vet_b[n_lin])
-{
-        printf("++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
-        for (int y = 0; y < n_lin; ++y) 
-        {
-            for (int g = 0; g < n_lin ; ++g) 
-            {
-                printf(" a%d%d: %f,", y, g, matriz[y][g]);
-            }
-            printf(" b%d: %f \n", y, vet_b[y]);
-        }
-        printf("++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
-}
+void print_matriz(int n_line, double matriz[n_line][n_line], double vet_b[n_line]);
 
 int main(int argc, char** argv)
 {
-    int n_lin, i;
-    
-    printf("Insira a ordem do sistema TRIDIAGONAL: ");
-    scanf("%d",&n_lin);
-
-    double vet_b[n_lin];
-    double matriz[n_lin][n_lin];
+    int i;
     double matriz_linha[n_lin][3];
     double sols[n_lin];
     double m; //multiplicador
-
-    for (i = 0; i < n_lin; ++i) {
-        printf("Insira os elementos da linha %d ->",i);
-        input_listing(n_lin, matriz[i]);
-        printf("Insira o vetor b%d ",i);
-        scanf("%lf",&vet_b[i]);
-    }
+    double matriz[n_lin][n_lin] = {{-2, 1, 0, 0}, {1,-2, 1, 0}, {0, 1, -2, 1}, {0, 0, 1, -2}};
+    double vet_b[n_lin] = {1, 2, -7, -1}; 
     /*
         @shogunhirei
         Inserir matriz normalmente, agora realizar transformação para matriz nx3 
@@ -79,14 +49,7 @@ int main(int argc, char** argv)
 
     // Mostrando a matriz para conferir coeficientes 
 
-    for (i = 0; i < n_lin; ++i)
-    {
-        for (int j = 0; j < 3; ++j)
-        {
-            printf("a%d%d: %f ", i, j, matriz_linha[i][j]);
-        }
-        printf("b%d: %f\n", i, vet_b[i]);
-    }
+    print_matriz(n_lin, matriz, vet_b);
 
     for (i = 1; i < n_lin; ++i) {
         // Operação de Eliminação, Li - M * Lj
@@ -122,4 +85,18 @@ int main(int argc, char** argv)
 
     return(EXIT_SUCCESS);
 
+}
+
+void print_matriz(int n_line, double matriz[n_line][n_line], double vet_b[n_line])
+{
+        printf("++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+        for (int y = 0; y < n_line; ++y) 
+        {
+            for (int g = 0; g < n_line ; ++g) 
+            {
+                printf(" a%d%d: %f,", y, g, matriz[y][g]);
+            }
+            printf(" b%d: %f \n", y, vet_b[y]);
+        }
+        printf("++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
 }
