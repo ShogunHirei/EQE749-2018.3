@@ -1,27 +1,15 @@
+/*#ifndef helper_funtions.h*/
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
-
 /*
     @shogunhirei
-    Function to insert data more easily, because, seriously, element-wise its a pain in the ass
-
-    Process:
-    -> Input string;
-    -> Read string;
-    -> identify marker (",")
-    -> Identify elements between markers (data)
-    -> Create array with the length equal to the numbers of marks + 1
-    ->         Problem: Converts string of text to number
-    ->         Inicial solution: convert element-wise char and sum them up
-    -> Do this for every markers + 1, 
-    -> End: Return array
-    sáb 10 nov 2018 12:39:52 -02
+    Criação de header para evitar declaração repetidas de funções 
+    qua 05 dez 2018 10:31:35 -02
 */
 
 void pivotamento(int n_lines, int indice_linha, double matriz[n_lines][n_lines], double vetor[n_lines])
-{
-     /*
+{ /*
          @shogunhirei
          Função para pivotamento de de matriz 
 
@@ -66,18 +54,102 @@ void pivotamento(int n_lines, int indice_linha, double matriz[n_lines][n_lines],
     }
     
 }
+
+
+
+void diag_domin(int n, double mat[n][n], double vetor[n]) // n ->  número de linhas; ordem da matriz
+{
+    /*
+        @shogunhirei
+        PIvotamento - Limitações observadas 
+        -> Por causa da definção de i = (k+1) o código não verifica se as linhas 
+        ->      anteriores seriam diagonais dominantes no lugar dessa
+        ter 27 nov 2018 00:02:09 -02
+    */
+    double soma = 0; // Para verificar se a diagonal atual é dominante 
+    double soma2 = 0;// Verficar se as outras linhas seriam diagonais dominantes
+    double subs; // substituir elemento por elemento;
+    for (int k = 0; k < n; k++)
+    {
+        soma = 0; 
+
+        for (int s = 0; s < n; s++) // Somatorio das elementos das linhas 
+        {
+            soma += mat[k][s];
+        }
+
+        soma = fabs(soma - mat[k][k]); // Retirando a diagonal principal
+        
+        for (int i = k + 1; i < n ; i++)
+        {
+
+            if(fabs(mat[k][k]) <= soma)
+            {
+               // Verificando se as outras linhas seriam diagonais dominantes 
+               // nessa diagonal (k) de refereência
+               soma2 = 0;
+
+               for (int col = 0; col < n; col++) 
+               {
+                   soma2 += mat[i][col];
+               }
+               // Usando a coluna de referencia como valor que seria da diagonal
+               soma2 = fabs(soma2 - mat[i][k]);
+
+               if(mat[i][k] >= soma2)
+               {
+                   for (int el = 0; el < n; el++) // Etapa de troca de diagonal
+                   {
+                       subs = mat[k][el];
+                       mat[k][el] = mat[i][el];
+                       mat[i][el] = subs;
+                   }
+                   subs = vetor[k];
+                   vetor[k] = vetor[i];
+                   vetor[i] = subs;
+                   for (int lin = 0; lin < n; ++lin) {
+                       for (int col = 0; col < n; ++col) {
+                           printf("A%d%d: %f, ", lin, col, mat[lin][col]);
+                       }
+                       printf("Linhas alteradas %d com %d \n", i, k);
+                   }
+               }
+               else
+               {
+                   printf("A linha %d não seria dominante no lugar da linha %d\n", i, k);
+               }
+            }
+            printf("Já tem a diagonal dominante L%d\n ",k);
+        }
+    }
+}
+
 int main(int argc, char** argv)
 {
     int i,j,k;
-    double mat[3][3] = { {0,3,2},{2,5,3},{7, 1, 0} };
+    double mat[3][3] = { {0,3,3},{2,5,3},{7, 1, 0} };
     double vet[3] = { 3, 2, 1}; 
 
-    pivotamento(3,1, mat, vet);
+    pivotamento(3,0, mat, vet);
     for (i = 0; i < 3; ++i) {
         for (j = 0; j < 3; ++j) {
             printf("A%d%d: %f, ",i + 1, j + 1, mat[i][j]);
         }
+        printf("b%d: %f ", i, vet[i]);
+        printf("\n");
+    }
+
+    diag_domin(3, mat, vet);
+    
+    for (i = 0; i < 3; ++i) {
+        for (j = 0; j < 3; ++j) {
+            printf("A%d%d: %f, ",i + 1, j + 1, mat[i][j]);
+        }
+        printf("b%d: %f ", i, vet[i]);
         printf("\n");
     }
     return(EXIT_SUCCESS);
 }
+
+
+/*#endif*/
