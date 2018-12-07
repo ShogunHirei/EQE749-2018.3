@@ -92,7 +92,7 @@ double b_fun(double x, double y)
 
 int main(int argc, char** argv)
 {
-    int n_pratos = 40;// Primeiro teste, à nível de comparação 
+    int n_pratos = 12;// Primeiro teste, à nível de comparação 
     double x, y; // Fração molar de líquido e gás, respectivamente
     double G = 66.7; // Quantidade molar de gás
     double L = 40.8; // Quantidade molar de líquido 
@@ -150,52 +150,6 @@ int main(int argc, char** argv)
         mat[i][2] = G*(a);
         vet[i] =  G*(b - b) - L*sols[0];
     }
-
-    /*// Mostrar matriz para conferir coeficientes*/
-    /*for (m = 0; m < n_pratos; ++m) {*/
-        /*if(m <= 1)*/
-        /*{*/
-            /*printf("A(1,%d): %3.3f, ", m + 1, mat[0][1]);*/
-            /*printf("A(1,%d): %3.3f, ", m + 2, mat[0][2]);*/
-            /*m+=2;*/
-        /*}*/
-        /*else*/
-        /*{*/
-            /*printf("A(1,%d): 0.000000, ",m+1);*/
-        /*}*/
-    /*}*/
-    /*printf("\n");*/
-    /*for (i = 1; i < n_pratos; i++)*/
-    /*{*/
-        /*for (j = 0; j < n_pratos; ++j) {*/
-           /*if(j >= i - 1 && j <= i+1)*/
-           /*{*/
-               /*printf("A(%d,%d): %3.3f, ", i+1, j+1, mat[i][0]);*/
-               /*printf("A(%d,%d): %3.3f, ", i+1, j+2, mat[i][1]);*/
-               /*printf("A(%d,%d): %3.3f, ", i+1, j+3, mat[i][2]);*/
-               /*j+=3;*/
-           /*} */
-           /*else*/
-           /*{*/
-               /*printf("A(%d,%d): 0.000000, ", i+1, j+1);*/
-           /*}*/
-        /*}*/
-        /*printf("\n");*/
-    /*}*/
-    /*for (m = 0; m < n_pratos; m++)*/
-    /*{*/
-        /*if( m < n_pratos - 2)*/
-        /*{*/
-            /*printf("A(%d,%d): 0.000000 ",n_pratos + 1, m+1);*/
-        /*}*/
-        /*else*/
-        /*{*/
-            /*printf("A(%d,%d): %3.3f, ", n_pratos + 1, m+1, mat[n_pratos][0]);*/
-            /*printf("A(%d,%d): %3.3f, ", n_pratos + 1, m+1, mat[n_pratos][1]);*/
-            /*m += 2;*/
-        /*}*/
-    /*}*/
-    /*printf("\n");*/
 
     thomas_alg(n_pratos, mat, vet, sols);
 
