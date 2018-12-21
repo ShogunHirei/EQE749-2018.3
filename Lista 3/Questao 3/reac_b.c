@@ -18,46 +18,14 @@
 #define dT 0.001
 #define conv_crit 1e-6 // Critério de convergência 
 
-double sum_mat(int n,double vet[n])
-{
-    double result = 0;
-    for (int i = 0; i < n; i++)
-    {
-        result += (vet[i]);
-    }
-    return result;
-}
-void mult_mat (int n, double mat[n][n],double vet[n], double result[n])
-{
-    for (int i = 0; i < n; i++)
-    {
-        result[i] = 0; 
-        for (int j = 0; j < n; j++)
-        {
-            result[i] += mat[i][j] * vet[j];
-        }
-    }
-    
-}
-void  subt_matrix(int n, double vet1[n],  double vet2[n], double result[n])
-{
-    for (int i = 0; i < n; ++i) {
-        result[i] = vet1[i] - vet2[i];
-    }
-}
 
-double err_rel(double k_vet[3], double kN_vet[3])
-{
-    // Erro relativo para os vetores k e xN 
-    double result = 0;
-    for (int i = 0; i < 3; i++)
-    {
-        result += pow((kN_vet[i] - k_vet[i])/k_vet[i], 2.0);
-    }
-    result = sqrt(result/3.0);
-    return result;
+double sum_mat(int n,double vet[n]);
 
-}
+void mult_mat (int n, double mat[n][n],double vet[n], double result[n]);
+
+void  subt_matrix(int n, double vet1[n],  double vet2[n], double result[n]);
+
+double err_rel(double k_vet[3], double kN_vet[3]);
 
 void function(double dados0[3], double dados[3], double fi_x[3])
 {
@@ -75,9 +43,6 @@ void function(double dados0[3], double dados[3], double fi_x[3])
     fi_x[0] = x - (x0 + dT * k2 * y * z)/(1 + dT * k1);
     fi_x[1] = y - (y0 + dT * k1 * x)/(1 + dT * ( k2 * z + k3 * y ) );
     fi_x[2] = z - (z * z0)/(z - dT * k3 * y * y);
-
-
-   
     
 }
 
@@ -85,9 +50,9 @@ void euler_explic(double dados[3], double k0[3])
 {
    // Usando a estimativa inicial a partir do Método de Euler Explícito 
 
-   k0[0] = 1e-1 * (-k1 * dados[0] + k2 * dados[1] * dados[2]);
+   k0[0] = 1e-6 * (-k1 * dados[0] + k2 * dados[1] * dados[2]);
    k0[1] = 1e-6 * (k1 * dados[0] - k2 * dados[1] * dados[2] - k3 * pow(dados[1], 2.0));
-   k0[2] = 1e-1 * (k3 * pow(dados[1] , 2.0)); 
+   k0[2] = 1e-6 * (k3 * pow(dados[1] , 2.0)); 
 }
 
 void jacbian(double dados0[3], double dados[3], double invjacob[3][3])
@@ -104,9 +69,9 @@ void jacbian(double dados0[3], double dados[3], double invjacob[3][3])
     /*
         @shogunhirei
         As três equações elaboradas foram:
-            f1(x) = x1 - x0 + dT * k1 * x1 - k2 * y1 * z1 = 0
-            f2(x) = y1 - y0 - dT * k1 * x1 + dT * k2 * y1 * z1 + dT * k3 * y1² = 0
-            f3(x) = z1 - z0 - dT * k3 * y1² = 0 
+            f1(x) = x - (x0 + dT * k2 * y * z)/(1 + dT * k1);
+            f2(x) = y - (y0 + dT * k1 * x)/(1 + dT * ( k2 * z + k3 * y ) );
+            f3(x) = z - (z * z0)/(z - dT * k3 * y * y);
         Nas quais será implementado diretamente as derivadas nos elementos da jacobiana
         seg 17 dez 2018 19:50:33 -02
     */
@@ -147,7 +112,6 @@ void jacbian(double dados0[3], double dados[3], double invjacob[3][3])
 
 int main(int argc, char** argv)
 {
-    // Dados iguais à letra A, portanto os copiarei aqui  
 
     int i; // Contadores diversos
 
@@ -185,7 +149,6 @@ int main(int argc, char** argv)
     double inv_jac[3][3];
     double func_vet[3];
     double val; // para determinar convergência
-    double it0, itn;
 
     for( i = 1; i < num; i++)
     {
@@ -194,9 +157,6 @@ int main(int argc, char** argv)
         data[2] = dados3[i - 1];
 
         euler_explic(data, k);
-        /*k[0] = 0.5;*/
-        /*k[1] = 0.5;*/
-        /*k[2] = 0.5;*/
 
         do // Seção responsável pela parte iterativa de Newton-Raphson 
         {
@@ -204,27 +164,11 @@ int main(int argc, char** argv)
             jacbian(data, k, inv_jac); // Determinação da Jacobiana Inversa, armazenada localmente
             function( data, k, func_vet ); // Determinando F(x_m) para a iteração atual
 
-
-            /*if(i == 10 || i == 1e3 || i == 1e4 || i == 1e5)*/
-            /*{*/
-                /*printf("i -> %d \n", i);*/
-
-                /*for ( int p = 0; p < 3; p++)*/
-                /*{*/
-                    /*printf("J-1 [%d]1: %g, J-1 [%d]2: %g, J-1 [%d]3: %g \n", p, inv_jac[p][0], p, inv_jac[p][1], p, inv_jac[p][2]);*/
-                /*}*/
-            /*}*/
-
             mult_mat(3, inv_jac, func_vet, mult); // Multiplicação das matrizes
             subt_matrix(3, k, mult, xN); // subtração das matrizes, armazenando em x_(m+1);
 
-            // Critério de convergência arbitrário, como espero que os valores sejam 
-            // similares a subtração do somatório das iterações deve se aproximar de zero
+            // Verificação de Erro relativo do NR multivariado 
             val = err_rel(k, xN); 
-            
-            /*it0 = sum_mat(3, k);*/
-            /*itn = sum_mat(3, xN);*/
-            /*val = itn - it0;*/
 
             for (int j = 0; j < 3; ++j) {
                 k[j] = xN[j];
@@ -239,14 +183,58 @@ int main(int argc, char** argv)
 
     }
 
-    /*printf("Ca\t \t Cb \t\t Cc\t\n");*/
-
-    /*for (i = 0; i < num; ++i) {*/
-        /*[>printf("%.15f \t %.15f \t %.15f \t\n",dados1[i],dados2[i],dados3[i]);<]*/
-    /*}*/
-
     fclose(file);
+
+    printf("Fim dos cálculos!\n");
 
     return(EXIT_SUCCESS);
 
 }
+
+// Somatório de vetores
+double sum_mat(int n,double vet[n])
+{
+    double result = 0;
+    for (int i = 0; i < n; i++)
+    {
+        result += (vet[i]);
+    }
+    return result;
+}
+
+// Multiplicação de matriz e vetor e armazenamento em resultado
+void mult_mat (int n, double mat[n][n],double vet[n], double result[n])
+{
+    for (int i = 0; i < n; i++)
+    {
+        result[i] = 0; 
+        for (int j = 0; j < n; j++)
+        {
+            result[i] += mat[i][j] * vet[j];
+        }
+    }
+    
+}
+// Subtração de vetores 
+void  subt_matrix(int n, double vet1[n],  double vet2[n], double result[n])
+{
+    for (int i = 0; i < n; ++i) {
+        result[i] = vet1[i] - vet2[i];
+    }
+}
+
+// Função de erro relativo para comparação de erro de sistema de equações
+// Norma com distancia euclidiana do vetor resposta
+double err_rel(double k_vet[3], double kN_vet[3])
+{
+    // Erro relativo para os vetores k e xN 
+    double result = 0;
+    for (int i = 0; i < 3; i++)
+    {
+        result += pow((kN_vet[i] - k_vet[i])/k_vet[i], 2.0);
+    }
+    result = sqrt(result/3.0);
+    return result;
+
+}
+
